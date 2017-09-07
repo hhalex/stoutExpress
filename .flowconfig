@@ -1,0 +1,14 @@
+[include]
+src/main/js
+
+[ignore]
+.*/target/.*
+<PROJECT_ROOT>/node_modules/jss/.*
+
+[libs]
+
+[options]
+module.use_strict=true
+
+esproposal.class_static_fields=enable
+esproposal.class_instance_fields=enable
