@@ -1,16 +1,25 @@
-package com.beerries.databeer.core
+package com.beerries.databeer
 
+import com.beerries.databeer.core.{Database, HopsCategory, ResourceSchema}
 import doobie.imports._
 
-case class HopsCategory(name: String, alpha_lo: Double, alpha_hi: Double)
+trait Stock {
+  def quantity(): Int
+  def use(amount: Int): Int
+  def finish(): Int
+}
+/*
+class HopStock extends Stock {
+  val hopsCategory: HopsCategory
+}*/
 
-case class HopsCategoryDB(db: Database) {
+case class HopStockDB(db: Database) {
   def add(name : String, alpha_lo: Double, alpha_hi: Double): Update0 =
     sql"insert into hopsFamily (name, alpha_lo, alpha_hi) values ($name,$alpha_lo,$alpha_hi)".update
   def all(): Query0[String] = sql"select name from hopsFamily".query[String]
 }
 
-object HopsCategorySchema extends ResourceSchema {
+object HopStockSchema extends ResourceSchema {
   def create(): Update0 = sql"""
     CREATE TABLE hopsFamily (
       id          SERIAL,

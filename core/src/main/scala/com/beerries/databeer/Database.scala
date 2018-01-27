@@ -1,7 +1,7 @@
 package com.beerries.databeer.core
 
 import doobie.imports._
-import cats._, cats.data._, cats.implicits._
+import cats.implicits._
 import fs2.interop.cats._
 
 import scala.util.{Try}
@@ -14,6 +14,11 @@ case class DatabaseConfig(host: String, port: Int, database: String, user: Strin
 
 object Database {
 
+  // Fetch all tables to create before using the app
+  def collectSchemas(): Seq[ResourceSchema] = {
+    List(HopsCategorySchema)
+  }
+
   def connect(c: DatabaseConfig): Database = new Database {
     val xa = DriverManagerTransactor[IOLite](
       "org.postgresql.Driver",
@@ -23,7 +28,13 @@ object Database {
     )
     def run[A](statements: ConnectionIO[A]) = statements.transact(xa).unsafePerformIO
 
-    run[Int](schemaHopsFamilyDrop.run *> schemaHopsFamily.run)
+    // Init database with all tables
+    run[Int](
+      collectSchemas()
+        .foldLeft(sql"select 42".query[Int].unique)(
+          (acc, r) => acc *> (r.drop().run *> r.create().run)
+        )
+    )
   }
 
   def configFromEnv: DatabaseConfig = {
@@ -37,17 +48,9 @@ object Database {
       env("POSTGRES_PASSWORD")
     )
   }
+}
 
-  val schemaHopsFamily: Update0 = sql"""
-    CREATE TABLE hopsFamily (
-      id          SERIAL,
-      name        VARCHAR(1000) NOT NULL UNIQUE,
-      alpha_lo    float8 NOT NULL,
-      alpha_hi    float8 NOT NULL
-    );
-  """.update
-  val schemaHopsFamilyDrop: Update0 = sql"""
-    DROP TABLE IF EXISTS hopsFamily
-  """.update
-
+trait ResourceSchema {
+  def create(): Update0
+  def drop(): Update0
 }
