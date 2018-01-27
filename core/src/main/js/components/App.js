@@ -1,16 +1,16 @@
 // @flow
 
 import React from "react";
-import UserList from "../containers/user-list";
-import UserDetails from "../containers/user-detail";
+import HopsList from "../containers/hops-list";
+import HopsDetails from "../containers/hops-details";
 
 const App = () => (
   <div>
-    <h2>User List</h2>
-    <UserList />
+    <h2>Hops List</h2>
+    <HopsList />
     <hr />
-    <h2>User Details</h2>
-    <UserDetails />
+    <h2>Hops Details</h2>
+    <HopsDetails />
   </div>
 );
 
