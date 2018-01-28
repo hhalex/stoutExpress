@@ -17,6 +17,19 @@
     "@types/node" "*"
     "@types/react" "*"
 
+"@types/react-icon-base@*":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@types/react-icon-base/-/react-icon-base-2.1.0.tgz#3d42c67d4bedd47e3dc4d64b405641bcb3c08274"
+  dependencies:
+    "@types/react" "*"
+
+"@types/react-icons@^2.2.4":
+  version "2.2.4"
+  resolved "https://registry.yarnpkg.com/@types/react-icons/-/react-icons-2.2.4.tgz#40bfb61b82677a7b6a636605662900a3386c7bb3"
+  dependencies:
+    "@types/react" "*"
+    "@types/react-icon-base" "*"
+
 "@types/react-redux@5.0.14":
   version "5.0.14"
   resolved "https://registry.yarnpkg.com/@types/react-redux/-/react-redux-5.0.14.tgz#f3fc30dcbb2d20455a714f591cc27f77b4df09bb"

@@ -1,6 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import { selectUser as selectUserAction } from "../actions/all";
 
 type Props = {
   selectUser: (a: any) => void,
@@ -36,7 +37,7 @@ const mapStateToProps = (state) => ({
 // Get actions and pass them as props to to UserList
 //      > now UserList has this.props.selectUser
 const matchDispatchToProps = (dispatch) =>
-  bindActionCreators({ selectUser }, dispatch);
+  bindActionCreators({ selectUser: selectUserAction }, dispatch);
 
 // We don't want to return the plain UserList (component) anymore, we want to return the smart Container
 //      > UserList is now aware of state and actions
