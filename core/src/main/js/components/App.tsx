@@ -1,8 +1,6 @@
-// @flow
-
-import React from "react";
-import HopsList from "../containers/hops-list";
+import * as React from "react";
 import HopsDetails from "../containers/hops-details";
+import HopsList from "../containers/hops-list";
 
 const App = () => (
   <div>

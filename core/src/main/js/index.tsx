@@ -1,10 +1,9 @@
-import "babel-polyfill";
-import React from "react";
-import ReactDOM from "react-dom";
+import * as React from "react";
+import * as ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
-import allReducers from "./reducers";
 import App from "./components/App";
+import allReducers from "./reducers/all";
 
 const store = createStore(allReducers);
 

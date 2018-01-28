@@ -1,6 +1,7 @@
-var path = require("path");
-var webpack = require("webpack");
-var HtmlWebpackPlugin = require("html-webpack-plugin");
+const path = require("path");
+const webpack = require("webpack");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const { CheckerPlugin } = require("awesome-typescript-loader");
 
 module.exports = {
   devServer: {
@@ -9,27 +10,27 @@ module.exports = {
     port: 3000
   },
   devtool: "source-map",
-  entry: "./core/src/main/js/index.js",
+  entry: "./core/src/main/js/index.tsx",
+  resolve: {
+      // Add '.ts' and '.tsx' as resolvable extensions.
+      extensions: [".ts", ".tsx", ".js", ".json"]
+  },
   module: {
-    rules: [
-      {
-        test: /\.jsx?$/,
-        exclude: /node_modules/,
-        use: [
-          {
-            loader: "babel-loader",
-            options: {
-              babelrc: false,
-              presets: ["react", "es2015", "stage-0", "flow"]
-            }
-          }
-        ]
-      },
-      {
-        test: /\.(scss|sass|css)/,
-        loader: "style-loader!css-loader!sass-loader"
-      }
-    ]
+      rules: [
+          // All files with a '.ts' or '.tsx' extension will be handled by 'awesome-typescript-loader'.
+          { test: /\.tsx?$/, loader: "awesome-typescript-loader" },
+
+          // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
+          { enforce: "pre", test: /\.js$/, loader: "source-map-loader" }
+      ]
+  },
+  // When importing a module whose path matches one of the following, just
+  // assume a corresponding global variable exists and use that instead.
+  // This is important because it allows us to avoid bundling all of our
+  // dependencies, which allows browsers to cache those libraries between builds.
+  externals: {
+      "react": "React",
+      "react-dom": "ReactDOM"
   },
   output: {
     path: path.resolve(__dirname, "target/scala-2.12/classes/public"),
@@ -39,6 +40,7 @@ module.exports = {
     new webpack.optimize.OccurrenceOrderPlugin(),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, "core/src/main/html/index.html")
-    })
+    }),
+    new CheckerPlugin()
   ]
 };

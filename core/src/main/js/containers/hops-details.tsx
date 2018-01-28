@@ -1,12 +1,12 @@
-import React, { Component } from "react";
+import * as React from "react";
 import { connect } from "react-redux";
 
 /*
  * We need "if(!this.props.user)" because we set state to null by default
  * */
 
-class HopsDetail extends Component {
-  render() {
+class HopsDetail extends React.Component {
+  public render() {
     if (!this.props.user) {
       return <div>Select a user...</div>;
     }

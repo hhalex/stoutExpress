@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "baseUrl": "core/src/main/js",
+        "noImplicitAny": true,
+        "removeComments": true,
+        "target": "es2015",
+        "preserveConstEnums": true,
+        "sourceMap": true,
+        "module": "commonjs",
+        "jsx": "react"
+    },
+    "include": ["./**/*"]
+}
