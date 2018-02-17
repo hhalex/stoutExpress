@@ -2,12 +2,17 @@
     "compilerOptions": {
         "baseUrl": "core/src/main/js",
         "noImplicitAny": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
         "removeComments": true,
         "target": "es2015",
         "preserveConstEnums": true,
         "sourceMap": true,
         "module": "commonjs",
-        "jsx": "react"
+        "jsx": "react",
+        "plugins": [
+            { "name": "tslint-language-service"}
+        ]
     },
     "include": ["./**/*"]
 }

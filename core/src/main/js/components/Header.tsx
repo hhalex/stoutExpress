@@ -1,15 +1,6 @@
 import * as React from "react";
 import { FaBeer, FaBook } from "react-icons/lib/fa";
 import styled from "styled-components";
-import { selectUser } from "../actions/all";
-import HopsDetails from "../containers/hops-details";
-import HopsList from "../containers/hops-list";
-
-const WholeContainer = styled.div`
-  background-color: #ecf0f1;
-  width: 100%;
-  height: 100%;
-`;
 
 const MenuBar = styled.div`
   top: 0px;
@@ -44,25 +35,16 @@ const MenuElements = styled.div`
   flex-direction: row-reverse;
 `;
 
-const App = () => (
-  <WholeContainer>
+export const Header = () => (
     <MenuBar>
-      <Title>DataBeer</Title>
-      <MenuElements>
+        <Title>DataBeer</Title>
+        <MenuElements>
         <MenuElement>
-          <FaBeer/>
+            <FaBeer/>
         </MenuElement>
         <MenuElement>
-          <FaBook/>
+            <FaBook/>
         </MenuElement>
-      </MenuElements>
+        </MenuElements>
     </MenuBar>
-    <h2>Hops List</h2>
-    <HopsList selectUser={selectUser} />
-    <hr />
-    <h2>Hops Details</h2>
-    <HopsDetails />
-  </WholeContainer>
 );
-
-export default App;

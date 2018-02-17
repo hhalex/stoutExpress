@@ -1,4 +1,4 @@
-val Http4sVersion = "0.17.0-RC1"
+val Http4sVersion = "0.18.0"
 
 val devMode = settingKey[Boolean]("Some build optimization are applied in devMode.")
 val writeClasspath = taskKey[File]("Write the project classpath to a file.")
@@ -18,7 +18,8 @@ lazy val commonSettings = Seq(
     "-Ywarn-dead-code",
     "-language:postfixOps",
     "-Xfuture",
-    "-Ywarn-unused-import"
+    "-Ywarn-unused-import",
+    "-Ypartial-unification"
   ),
   devMode := Option(System.getProperty("devMode")).isDefined,
   writeClasspath := {
@@ -52,13 +53,19 @@ lazy val databeerCore =
         "org.http4s"     %% "http4s-dsl"
       ).map(_ % Http4sVersion),
       libraryDependencies ++= Seq(
+        // Optional for auto-derivation of JSON codecs
+        "io.circe" %% "circe-generic" % "0.9.1",
+        // Optional for string interpolation to JSON model
+        "io.circe" %% "circe-literal" % "0.9.1"
+      ),
+      libraryDependencies ++= Seq(
         "ch.qos.logback" %  "logback-classic"     % "1.2.1"
       ),
       libraryDependencies ++= Seq(
-        "org.tpolecat" %% "doobie-core-cats",
-        "org.tpolecat" %% "doobie-hikari-cats",
-        "org.tpolecat" %% "doobie-postgres-cats"
-      ).map(_ % "0.4.2"),
+        "org.tpolecat" %% "doobie-core",
+        "org.tpolecat" %% "doobie-hikari",
+        "org.tpolecat" %% "doobie-postgres"
+      ).map(_ % "0.5.0"),
       libraryDependencies ++= Seq(
         "org.scalatest" %% "scalatest" % "3.0.1"
       ).map(_ % "test"),

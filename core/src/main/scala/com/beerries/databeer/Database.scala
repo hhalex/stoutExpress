@@ -1,10 +1,10 @@
 package com.beerries.databeer.core
 
+import cats.effect.IO
 import doobie.imports._
 import cats.implicits._
-import fs2.interop.cats._
 
-import scala.util.{Try}
+import scala.util.Try
 
 trait Database {
   def run[A](statements: ConnectionIO[A]): A
@@ -20,13 +20,13 @@ object Database {
   }
 
   def connect(c: DatabaseConfig): Database = new Database {
-    val xa = DriverManagerTransactor[IOLite](
+    val xa = Transactor.fromDriverManager[IO](
       "org.postgresql.Driver",
       s"jdbc:postgresql://${c.host}:${c.port}/${c.database}",
       c.user,
       c.password
     )
-    def run[A](statements: ConnectionIO[A]) = statements.transact(xa).unsafePerformIO
+    def run[A](statements: ConnectionIO[A]) = statements.transact(xa).unsafeRunSync
 
     // Init database with all tables
     run[Int](

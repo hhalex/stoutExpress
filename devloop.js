@@ -27,16 +27,6 @@ let database = runServer({
     ".localdb.LocalDB"
 }).dependsOn(generateClasspath);
 
-let yarn = run({
-  sh: "yarn install",
-  watch: "package.json"
-});
-
-let front = webpack(
-  {
-    //watch: ["webpack.config.js", "src/main/js/**/*.*", "src/main/html/**/*.*"]
-  }
-).dependsOn(yarn);
 
 let server = runServer({
   httpPort: 8888,
@@ -56,4 +46,4 @@ let server = runServer({
   }
 }).dependsOn(compile, generateClasspath, database);
 
-proxy(server, 8080).dependsOn(front);
+proxy(server, 8080);

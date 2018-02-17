@@ -5,9 +5,13 @@ const { CheckerPlugin } = require("awesome-typescript-loader");
 
 module.exports = {
   devServer: {
-    inline: true,
-    contentBase: "target/scala-2.12/classes/public",
-    port: 3000
+    historyApiFallback: true,
+    port: 3000,
+    proxy: {
+      "/api": {
+        target: "http://localhost:8080"
+      }
+    }
   },
   devtool: "source-map",
   entry: "./core/src/main/js/index.tsx",
@@ -26,7 +30,8 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, "target/scala-2.12/classes/public"),
-    filename: "dist/bundle.js"
+    filename: "dist/bundle.js",
+    publicPath: "/"
   },
   plugins: [
     new webpack.optimize.OccurrenceOrderPlugin(),

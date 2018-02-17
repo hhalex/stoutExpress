@@ -2,7 +2,7 @@ package com.beerries.databeer.core
 
 import doobie.imports._
 
-case class HopsCategory(name: String, alpha_lo: Double, alpha_hi: Double)
+case class HopsCategory(name: String, alpha: (Double, Double))
 
 case class HopsCategoryDB(db: Database) {
   def add(name : String, alpha_lo: Double, alpha_hi: Double): Update0 =
